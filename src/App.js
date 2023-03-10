@@ -1,5 +1,4 @@
 import Display from "./components/Display";
-import Button from "./components/Button";
 import ButtonPanel from "./components/ButtonPanel";
 import "./App.css";
 import { useState } from "react";
@@ -9,87 +8,79 @@ import { multiplicacion, divicion, resta, suma } from "./operaciones";
 function App() {
   const [numero1, setNumero1] = useState(0);
   const [numero2, setNumero2] = useState(0);
-  const [resultado, setResultado] = useState(0);
+  const [resultado, setResultado] = useState();
   const [operador, setOperador] = useState();
-  const [numDisplay,setNumDisplay] = useState(0);
 
-
-
-  const getNumberToDisplay = (botonclick) => {
-   
-    if(isNumber(botonclick) && numero2 == undefined && operador == undefined){
-    
-      setNumDisplay(numero1+botonclick);
-
- }
-
-    if(isNumber(botonclick) && numero1 !== undefined && operador !== undefined){
-      
-      setNumDisplay(numero2 + botonclick);
+  const getNumberToDisplay = () => {
+    if (numero2 === 0 && operador === undefined) {
+      return numero1;
     }
 
-  return(numDisplay);
-}
- 
- 
+    if (numero1 !== 0 && operador !== undefined) {
+      return numero2;
+    }
+
+    return resultado;
+  };
+
   const buttonHandler = (evento) => {
     let botonclick = evento.target.textContent;
 
     if (botonclick === "AC") {
-
-     
-      
       setNumero1(0);
       setNumero2(0);
-      setResultado(0);
+      setOperador();
+      setResultado();
     }
 
-    if (isNumber(botonclick) && operador == undefined) {
-      
-       console.log(numero1+ botonclick)
+    if (isNumber(botonclick) && operador === undefined) {
+      console.log(numero1 + botonclick);
       setNumero1(numero1 + botonclick);
-      
-      
     }
 
-    if (!isNumber(botonclick) && botonclick !== "AC" && numero1 !== undefined) {
-      console.log("seteando operador", botonclick)
+    if (
+      !isNumber(botonclick) &&
+      botonclick !== "AC" &&
+      botonclick !== "=" &&
+      numero1 !== undefined
+    ) {
+      console.log("seteando operador", botonclick);
       setOperador(botonclick);
-      
     }
 
-    if (operador !== undefined && numero1 !== undefined && botonclick !== "=" && botonclick !== "AC") {
-      
-      console.log("setendo num2",numero2+botonclick)
+    if (
+      operador !== undefined &&
+      numero1 !== undefined &&
+      botonclick !== "=" &&
+      botonclick !== "AC"
+    ) {
+      console.log("setendo num2", numero2 + botonclick);
       setNumero2(numero2 + botonclick);
-      
     }
     if (
       numero1 !== undefined &&
       operador !== undefined &&
       numero2 !== undefined &&
-      botonclick == "="
+      botonclick === "="
     ) {
       let resultado;
-      setResultado(resultado);
 
-      if (operador == "X") {
+      if (operador === "X") {
         resultado = multiplicacion(numero1, numero2);
-
         setResultado(resultado);
       }
 
-      if (operador == "/") {
+      if (operador === "/") {
         resultado = divicion(numero1, numero2);
 
         setResultado(resultado);
       }
-      if (operador == "+") {
+      if (operador === "+") {
         resultado = suma(numero1, numero2);
 
         setResultado(resultado);
       }
-      if (operador == "-") {
+      if (operador === "-") {
         resultado = resta(numero1, numero2);
 
         setResultado(resultado);
@@ -99,7 +90,7 @@ function App() {
 
   return (
     <div>
-      <Display result={getNumberToDisplay()}  />
+      <Display result={resultado !== undefined ? resultado : getNumberToDisplay()} />
       <ButtonPanel buttonHandler={buttonHandler} />
     </div>
   );
