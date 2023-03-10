@@ -1,5 +1,5 @@
 const Button = ({name, onClick}) =>{
-    return(<div>
+    return(<div className="button">
        
         <button name={name} onClick={onClick}>{name}</button>
     
