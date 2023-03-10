@@ -2,10 +2,10 @@ import Button from "./Button";
 
 const ButtonPanel = ({ buttonHandler }) => {
   return (
-    <div>
+    <div className="buttonPanel">
       <div>
         <Button name="AC" onClick={buttonHandler}/>
-        <Button name="+/-" onClick={buttonHandler}/>
+       
         <Button name="%" onClick={buttonHandler}/>
         <Button name="/" onClick={buttonHandler}/>
       </div>
